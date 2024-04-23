@@ -37,14 +37,17 @@ class PaperScraper():
         options = webdriver.ChromeOptions()
         options.add_argument('headless')
 
-        webdriver_path = pkg_resources.resource_filename('paperscraper', 'webdrivers/chromedriver')
+        # Default webdriver path set to the package's chromedriver
+        default_webdriver_path = pkg_resources.resource_filename('paperscraper', 'webdrivers/chromedriver')
 
+        # Use the provided webdriver_path if not None, otherwise use the default
         if webdriver_path is not None:
             self.webdriver_path = webdriver_path
         else:
             self.webdriver_path = default_webdriver_path
 
-        self.driver = webdriver.Chrome(webdriver_path, options=options)
+        # Ensure the correct variable is used and only pass named arguments
+        self.driver = webdriver.Chrome(executable_path=self.webdriver_path, options=options)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.driver.quit()
