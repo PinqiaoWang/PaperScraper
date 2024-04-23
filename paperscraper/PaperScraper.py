@@ -11,6 +11,7 @@ from .scrapers.acs_scraper import ACS
 from .scrapers.pmc_scraper import PMC
 from .scrapers.rsc_scraper import RSC
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 import pkg_resources
 
 
@@ -34,9 +35,6 @@ class PaperScraper():
         :type webdriver_path: str.
 
         """
-        options = webdriver.ChromeOptions()
-        options.add_argument('headless')
-
         # Default webdriver path set to the package's chromedriver
         default_webdriver_path = pkg_resources.resource_filename('paperscraper', 'webdrivers/chromedriver')
 
@@ -44,10 +42,14 @@ class PaperScraper():
         if webdriver_path is not None:
             self.webdriver_path = webdriver_path
         else:
-            self.webdriver_path = default_webdriver_path
+            self.webdriver_path = default_webdriver_path        
+       
+        service = Service(executable_path=self.webdriver_path)
+        options = webdriver.ChromeOptions()
+        options.add_argument('headless')
 
         # Ensure the correct variable is used and only pass named arguments
-        self.driver = webdriver.Chrome(executable_path=self.webdriver_path, options=options)
+        self.driver = webdriver.Chrome(service=service, options=options)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.driver.quit()
