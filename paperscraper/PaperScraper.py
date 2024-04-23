@@ -39,8 +39,10 @@ class PaperScraper():
 
         webdriver_path = pkg_resources.resource_filename('paperscraper', 'webdrivers/chromedriver')
 
-        if ('webdriver_path' is not None):
+        if webdriver_path is not None:
             self.webdriver_path = webdriver_path
+        else:
+            self.webdriver_path = default_webdriver_path
 
         self.driver = webdriver.Chrome(webdriver_path, options=options)
 
