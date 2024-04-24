@@ -49,7 +49,7 @@ class PaperScraper():
         options.add_argument('headless')
 
         # Ensure the correct variable is used and only pass named arguments
-        self.driver = webdriver.Chrome(service=service, options=options)
+        self.driver = webdriver.Chrome(options=options)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.driver.quit()
